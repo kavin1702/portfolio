@@ -240,9 +240,10 @@ export const projects = [
     title: 'VR Drums',
     category: 'vr',
     year: '2025',
-    description: 'A playable drum kit in VR.', // TODO: add details + YouTube link
+    description: 'A playable drum kit in VR.', // TODO: add details
     tech: ['Unity', 'XR'],
     repo: 'https://github.com/kavin1702/VR-Drums',
+    video: 'https://www.youtube.com/watch?v=BiMrplu7H_o',
     hue: 300,
   },
   {

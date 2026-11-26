@@ -143,13 +143,17 @@ function youTubeId(url) {
   return m ? m[1] : null;
 }
 
+const coverOf = (p) => (p.image ? asset(p.image) : youTubeId(p.video) ? `https://i.ytimg.com/vi/${youTubeId(p.video)}/hqdefault.jpg` : null);
+
 function ProjectCard({ p, big, onOpen }) {
+  const [broken, setBroken] = useState(false);
+  const cover = broken ? null : coverOf(p);
   const hasMore = p.video || p.details || p.gallery;
   return (
     <article className={`card ${big ? 'card--big' : ''} reveal`} style={{ '--h': p.hue }}>
       <button className="card__art" onClick={() => onOpen(p)} aria-label={`Open details for ${p.title}`}>
-        {p.image ? (
-          <img src={asset(p.image)} alt="" loading="lazy" decoding="async" />
+        {cover ? (
+          <img src={cover} alt="" loading="lazy" decoding="async" onError={() => setBroken(true)} />
         ) : (
           <>
             <div className="card__grid" />
@@ -174,9 +178,11 @@ function ProjectCard({ p, big, onOpen }) {
               {p.video ? <><Icon name="play" /> Watch demo</> : <><Icon name="arrow" /> Details</>}
             </button>
           )}
-          <a href={p.repo} target="_blank" rel="noreferrer">
-            <Icon name="github" /> Source
-          </a>
+          {p.repo && (
+            <a href={p.repo} target="_blank" rel="noreferrer">
+              <Icon name="github" /> Source
+            </a>
+          )}
           {p.demo && (
             <a href={p.demo} target="_blank" rel="noreferrer">
               <Icon name="external" /> Live
@@ -235,7 +241,7 @@ function ProjectModal({ p, onClose }) {
           )}
           <ul className="tags">{p.tech.map((t) => <li key={t}>{t}</li>)}</ul>
           <div className="contact__actions">
-            <a className="btn" href={p.repo} target="_blank" rel="noreferrer"><Icon name="github" /> Source code</a>
+            {p.repo && <a className="btn" href={p.repo} target="_blank" rel="noreferrer"><Icon name="github" /> Source code</a>}
             {p.video && !yt && <a className="btn" href={p.video} target="_blank" rel="noreferrer"><Icon name="play" /> Watch video</a>}
             {p.demo && <a className="btn btn--primary" href={p.demo} target="_blank" rel="noreferrer">Open live <Icon name="external" /></a>}
           </div>
@@ -262,7 +268,7 @@ function Work() {
   return (
     <section className="section" id="work">
       <div className="container">
-        <SectionHead index="01" title="Selected work" kicker="XR training simulations, mixed reality games and Unity prototypes. Every card links to the source." />
+        <SectionHead index="01" title="Selected work" kicker="XR training simulations, mixed reality games and Unity prototypes. Press play on a card to watch the demo." />
         <div className="featured">
           {featured.map((p, i) => <ProjectCard key={p.title} p={p} big={i < 2} onOpen={setOpen} />)}
         </div>

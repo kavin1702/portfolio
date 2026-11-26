@@ -12,15 +12,17 @@ export const profile = {
   location: 'Tamil Nadu, India',
   status: 'Open to XR / Unity developer roles',
   // TODO: add a public contact email if you want one on the site (left empty on purpose).
-  email: '',
+  email: 'mnkavin2006@gmail.com',
   // Profile photo: put the file in public/images/ and write its name here,
   // for example photo: 'images/kavin.jpg'. Leave empty to show the 3D cube instead.
-  photo: '',
+  photo: 'images/kavin.jpg',
+  avatar: 'images/kavin-avatar.jpg', // small round photo shown on phones
   // TODO: add a link to a public resume PDF (without phone number / address) if you want a download button.
-  resumeUrl: '',
+  resumeUrl: 'Kavin-MN-Resume.pdf', // public copy without phone number / address
   links: {
     github: 'https://github.com/kavin1702',
     linkedin: 'https://www.linkedin.com/in/kavin-mn/',
+    artstation: 'https://mnkavin2006.artstation.com/',
     credly: 'https://www.credly.com/badges/b6fb3f0c-b320-4756-8f0f-3c0837a8f60f/public_url',
   },
 };
@@ -41,7 +43,8 @@ export const experience = [
   {
     company: '8chili',
     role: 'XR Developer Intern',
-    period: '2026', // TODO: exact start and end months
+    current: true,
+    period: '2026 – Present', // TODO: start month
     summary:
       'Contributed to 12+ Unity XR training simulations across development, testing, corrections, validation and delivery.',
     points: [

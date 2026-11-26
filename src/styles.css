@@ -366,7 +366,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 /* ---------- Profile photo ---------- */
 .hero__photo { display: none; }
-.hero__avatar { display: block; width: 88px; height: 88px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 2px solid var(--accent); }
+.hero__avatar { display: block; object-fit: cover; width: 88px; height: 88px; border-radius: 50%; object-fit: cover;  margin-bottom: 20px; border: 2px solid var(--accent); }
 @media (min-width: 1060px) {
   .hero__avatar { display: none; }
   .hero__photo {

@@ -90,7 +90,7 @@ function Hero() {
         </div>
       )}
       <div className="container hero__inner">
-        {profile.photo && <img className="hero__avatar reveal" src={asset(profile.photo)} alt={profile.name} width="88" height="88" decoding="async" />}
+        {profile.photo && <img className="hero__avatar reveal" src={asset(profile.avatar || profile.photo)} alt={profile.name} width="88" height="88" decoding="async" />}
         <p className="eyebrow reveal">
           <span className="dot" /> {profile.status}
         </p>
@@ -102,7 +102,11 @@ function Hero() {
         <p className="hero__intro reveal">{profile.intro}</p>
         <div className="hero__actions reveal">
           <a href="#work" className="btn btn--primary">See my work <Icon name="arrow" /></a>
-          <a href="#contact" className="btn">Get in touch</a>
+          {profile.resumeUrl ? (
+            <a href={`${import.meta.env.BASE_URL}${profile.resumeUrl}`} className="btn" target="_blank" rel="noreferrer"><Icon name="download" /> Resume</a>
+          ) : (
+            <a href="#contact" className="btn">Get in touch</a>
+          )}
         </div>
         <ul className="hero__meta reveal">
           <li><Icon name="badge" /> Unity Certified Associate</li>
@@ -394,6 +398,7 @@ function Contact() {
     profile.email && { label: 'Email', value: profile.email, href: `mailto:${profile.email}`, icon: 'mail' },
     { label: 'LinkedIn', value: 'in/kavin-mn', href: profile.links.linkedin, icon: 'linkedin' },
     { label: 'GitHub', value: '@kavin1702', href: profile.links.github, icon: 'github' },
+    { label: 'ArtStation', value: '3D art', href: profile.links.artstation, icon: 'art' },
     { label: 'Credly', value: 'Unity certification', href: profile.links.credly, icon: 'badge' },
   ].filter(Boolean);
 
@@ -403,13 +408,13 @@ function Contact() {
         <div className="contact__box reveal">
           <span className="section__index">05</span>
           <h2>Let's build something<br /><span className="accent">immersive</span>.</h2>
-          <p>I'm looking for Unity and XR developer roles and interesting simulation projects. The fastest way to reach me is LinkedIn.</p>
+          <p>I'm looking for Unity and XR developer roles and interesting simulation projects. {profile.email ? 'Drop me an email or message me on LinkedIn.' : 'The fastest way to reach me is LinkedIn.'}</p>
           <div className="contact__actions">
             <a className="btn btn--primary" href={profile.email ? `mailto:${profile.email}` : profile.links.linkedin} target="_blank" rel="noreferrer">
               {profile.email ? 'Email me' : 'Message me on LinkedIn'} <Icon name="arrow" />
             </a>
             {profile.resumeUrl && (
-              <a className="btn" href={profile.resumeUrl} target="_blank" rel="noreferrer">Download resume</a>
+              <a className="btn" href={`${import.meta.env.BASE_URL}${profile.resumeUrl}`} target="_blank" rel="noreferrer"><Icon name="download" /> Download resume</a>
             )}
           </div>
           <ul className="contact__list">

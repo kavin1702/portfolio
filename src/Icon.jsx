@@ -10,6 +10,8 @@ const paths = {
   pin: <><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" /></>,
   play: <path d="M7 4v16l13-8z" />,
   cap: <><path d="m2 9 10-5 10 5-10 5z" /><path d="M6 11v5c2 2 10 2 12 0v-5" /></>,
+  art: <><path d="M3 17.5 8.5 8l3 5.2" /><path d="M10 17.5h11L15.5 8l-2.2 3.8" /><path d="M3 17.5h5.5" /></>,
+  download: <path d="M12 4v11m-5-5 5 5 5-5M5 20h14" />,
   chat: <path d="M4 5h16v11H9l-5 4z" />,
 };
 

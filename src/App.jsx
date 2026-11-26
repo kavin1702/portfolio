@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   profile, stats, about, experience, skillGroups, projects, categories, certifications, education,
 } from './data.js';
@@ -29,6 +29,24 @@ function ThemeToggle() {
       <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
     </button>
   );
+}
+
+function ScrollProgress() {
+  const ref = useRef(null);
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      if (ref.current) ref.current.style.setProperty('--p', h > 0 ? String(window.scrollY / h) : '0');
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
+  }, []);
+  return <div className="progress" ref={ref} aria-hidden="true" />;
 }
 
 function Header() {
@@ -471,6 +489,7 @@ export default function App() {
   return (
     <>
       <a href="#work" className="skip">Skip to content</a>
+      <ScrollProgress />
       <Header />
       <main>
         <Hero />

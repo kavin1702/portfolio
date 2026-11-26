@@ -13,6 +13,24 @@ const NAV = [
   { id: 'contact', label: 'Contact' },
 ];
 
+function ThemeToggle() {
+  const [theme, setTheme] = useState('light');
+  useEffect(() => {
+    setTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+  }, []);
+  const toggle = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) { /* storage blocked: still switch for this visit */ }
+    setTheme(next);
+  };
+  return (
+    <button className="theme-toggle" onClick={toggle} aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
+      <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
+    </button>
+  );
+}
+
 function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -44,7 +62,7 @@ function Header() {
 
   return (
     <header className={`header ${scrolled ? 'is-scrolled' : ''}`}>
-      <div className="container header__inner">
+      <div className="header__inner">
         <a href="#top" className="logo" aria-label="Kavin M N, back to top">
           <span className="logo__mark">K</span>
           <span className="logo__text">kavin<span className="accent">.xr</span></span>
@@ -59,14 +77,17 @@ function Header() {
             <Icon name="github" /> GitHub
           </a>
         </nav>
-        <button
-          className={`burger ${open ? 'is-open' : ''}`}
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          onClick={() => setOpen((o) => !o)}
-        >
-          <span /><span />
-        </button>
+        <div className="header__tools">
+          <ThemeToggle />
+          <button
+            className={`burger ${open ? 'is-open' : ''}`}
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+          >
+            <span /><span />
+          </button>
+        </div>
       </div>
     </header>
   );
@@ -78,8 +99,8 @@ function Hero() {
       <div className="hero__floor" aria-hidden="true" />
       <div className="hero__glow" aria-hidden="true" />
       {profile.photo ? (
-        <div className="hero__photo" aria-hidden="true">
-          <img src={asset(profile.photo)} alt="" fetchpriority="high" decoding="async" />
+        <div className="hero__photo">
+          <img src={asset(profile.photo)} alt={`${profile.name}, Unity and XR developer`} width="640" height="853" fetchpriority="high" decoding="async" />
         </div>
       ) : (
         <div className="cube-wrap" aria-hidden="true">
@@ -304,7 +325,7 @@ function Work() {
 
 function Experience() {
   return (
-    <section className="section" id="experience">
+    <section className="section section--alt" id="experience">
       <div className="container">
         <SectionHead index="02" title="Experience" kicker="Real studio work on XR simulations, from storyboard to QA." />
         <ol className="timeline">
@@ -353,7 +374,7 @@ function Skills() {
 
 function About() {
   return (
-    <section className="section" id="about">
+    <section className="section section--alt" id="about">
       <div className="container about">
         <div>
           <SectionHead index="04" title="About" />

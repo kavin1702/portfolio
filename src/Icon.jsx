@@ -12,6 +12,8 @@ const paths = {
   cap: <><path d="m2 9 10-5 10 5-10 5z" /><path d="M6 11v5c2 2 10 2 12 0v-5" /></>,
   art: <><path d="M3 17.5 8.5 8l3 5.2" /><path d="M10 17.5h11L15.5 8l-2.2 3.8" /><path d="M3 17.5h5.5" /></>,
   download: <path d="M12 4v11m-5-5 5 5 5-5M5 20h14" />,
+  sun: <><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>,
+  moon: <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />,
   chat: <path d="M4 5h16v11H9l-5 4z" />,
 };
 

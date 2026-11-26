@@ -5,7 +5,7 @@
 
 export const profile = {
   name: 'Kavin M N',
-  role: 'XR Developer',
+  role: 'Unity & XR Developer',
   tagline: 'I build training worlds you can step inside.',
   intro:
     'XR developer and Unity Certified Associate building VR, MR and AR simulations in Unity 6 and C#. I care about interactions that feel natural in the hand and scenes that stay smooth on standalone headsets.',
@@ -29,7 +29,7 @@ export const profile = {
 
 export const stats = [
   { value: '12+', label: 'XR simulations shipped at 8chili' },
-  { value: '17', label: 'projects in this portfolio, most with video demos' },
+  { value: '14', label: 'projects in this portfolio, most with video demos' },
   { value: '90%', label: 'fewer AssetBundle blockers (target of my preflight tool)' },
 ];
 
@@ -51,7 +51,6 @@ export const experience = [
       'Built an AssetBundle preflight and blocker validator from recurring issues found with the Testing Lead, aimed at catching up to 90% of blocker issues before testing.',
       'Owned both development and testing on simulations, catching issues earlier and cutting the number of test cycles.',
       'Implemented and corrected scene lighting across multiple simulations for better clarity, immersion and XR performance.',
-      'Fixed Static Panel, VR hand-tracking speed and Detect Visual issues in the assessment system, plus other system-level fixes.',
     ],
     tags: ['Unity', 'C#', 'XR', 'AssetBundles', 'Lighting', 'QA'],
   },
@@ -121,6 +120,7 @@ export const projects = [
     category: 'vr',
     featured: true,
     year: '2026',
+    role: 'Solo developer',
     description:
       'A VR training simulator that teaches the PASS fire-extinguisher method (Pull, Aim, Squeeze, Sweep) through a full emergency drill, from raising the alarm to putting the fire out.',
     details: [
@@ -139,6 +139,7 @@ export const projects = [
     category: 'mr',
     featured: true,
     year: '2025',
+    role: 'Solo developer',
     description:
       'A mixed reality shooter for Meta Quest where ghosts spawn inside your real room and chase you around the furniture. Fight back with a laser gun.',
     details: [
@@ -151,27 +152,11 @@ export const projects = [
     hue: 280,
   },
   {
-    title: 'VR Molecular Chemistry Lab',
-    category: 'vr',
-    featured: true,
-    year: '2026',
-    description:
-      'An educational VR lab where students pick up atoms with their bare hands and bond them into real molecules.',
-    details: [
-      'Hand tracking with XR Hands, so atoms can be grabbed without controllers.',
-      'A bond manager checks each combination against molecule recipes (atom types and counts) and only forms valid molecules.',
-      'A break zone splits molecules back into atoms, and highlights plus audio cues give feedback on every bond.',
-      'Data-driven design: each molecule (name, formula, bond type, required atoms) is a ScriptableObject asset, so new molecules can be added without writing new code.',
-    ],
-    tech: ['Unity 6.3', 'XR Hands', 'XR Interaction Toolkit', 'OpenXR', 'C#'],
-    repo: 'https://github.com/kavin1702/VR-Molecular-Chemistry-Lab',
-    hue: 190,
-  },
-  {
     title: 'MR Random Catch',
     category: 'mr',
     featured: true,
     year: '2025',
+    role: 'Solo developer',
     description:
       'A mixed reality reflex game for Meta Quest. Seven cylinders drop at random in your real room, and you catch them with your hands before they hit the floor.',
     details: [
@@ -189,6 +174,7 @@ export const projects = [
     category: 'vr',
     featured: true,
     year: '2025',
+    role: 'Solo developer',
     description:
       'A hand-tracked VR experience where an NPC guide walks you through suiting up in safety gear, then lets you smash bottles with a bat to blow off steam.',
     details: [
@@ -205,6 +191,7 @@ export const projects = [
     category: 'vr',
     featured: true,
     year: '2025',
+    role: 'Solo developer',
     description:
       'A VR fruit-slicing game. Swing your hands or controllers to cut fruit in real time, and avoid the bombs.',
     details: [
@@ -220,31 +207,36 @@ export const projects = [
 
   // ---------------- More projects ----------------
   {
-    title: 'AR Object Detection',
+    title: 'AR CAD Inspection',
     category: 'ar',
+    featured: true,
     year: '2026',
+    role: 'Solo developer',
     description:
-      'A mobile AR project on AR Foundation for Android and iOS, with plane detection. Work in progress.', // TODO: what it detects + a video
-    tech: ['Unity 6.3', 'AR Foundation', 'ARCore', 'ARKit'],
+      'A mobile AR app that lines up a part\'s CAD model on the real object, so you can inspect its edges and features right on top of the physical part. Prototype working, backend in R&D.',
+    details: [
+      'Prototype: print a QR card, stick it on the part and scan it. ARCore places the CAD model on the real object, then LOCK fixes it in place for inspection.',
+      'Wireframe overlay of the part\'s edges, generated from the 3D model, drawn on top of the real object.',
+      'R&D in progress: a Python backend (CadQuery on Open CASCADE) that reads exact STEP files and finds the size, holes, nuts and bolts automatically.',
+      'The backend sends a light GLB model plus a features JSON file, which the Unity app loads at runtime with glTFast and UnityWebRequest.',
+    ],
+    tech: ['Unity 6', 'AR Foundation', 'ARCore', 'glTFast', 'Python', 'CadQuery'],
     repo: 'https://github.com/kavin1702/ar_object_detection',
     hue: 160,
-  },
-  {
-    title: 'VR Coin Collection',
-    category: 'vr',
-    year: '2025',
-    description: 'A forward-moving VR arcade game: collect what comes at you, avoid the rest, and beat your score before the end zone.',
-    details: ['Spawner, movement, score and replay systems written from scratch.'],
-    tech: ['XR Interaction Toolkit', 'URP', 'C#'],
-    repo: 'https://github.com/kavin1702/VR-coin-Collection',
-    hue: 48,
   },
   {
     title: 'VR Drums',
     category: 'vr',
     year: '2025',
-    description: 'A playable drum kit in VR.', // TODO: add details
-    tech: ['Unity', 'XR'],
+    role: 'Solo developer',
+    description:
+      'A playable VR drum kit. Grab the sticks, hit the drums and cymbals, and every piece plays its own sound the moment the stick touches it.',
+    details: [
+      'Hit detection is physics-based: each drumstick has a collider, and each drum and cymbal has its own collider and trigger.',
+      'When a stick collides with a drum, that drum plays its own sound, so you can play real beats in time.',
+      'Sticks are grabbable objects, so they follow your hands naturally.',
+    ],
+    tech: ['Unity', 'XR', 'Colliders & Triggers', 'Audio', 'C#'],
     repo: 'https://github.com/kavin1702/VR-Drums',
     video: 'https://www.youtube.com/watch?v=BiMrplu7H_o',
     hue: 300,
@@ -253,6 +245,7 @@ export const projects = [
     title: 'FPS Zombie Shooter',
     category: 'game',
     year: '2025',
+    role: 'Solo developer',
     description: 'A first-person survival shooter with waves of zombies that hunt you down using NavMesh pathfinding.',
     details: [
       'Multiple guns with reloading and weapon switching.',
@@ -267,6 +260,7 @@ export const projects = [
     title: 'Bottle Shooter: Aim & Break',
     category: 'game',
     year: '2025',
+    role: 'Solo developer',
     description: 'A first-person shooting challenge: break every bottle before your ammo or time runs out.',
     details: ['Raycast shooting, weapon switching, grenades, crouch, zoom and win/lose screens.'],
     tech: ['Unity', 'Raycasting', 'Blender', 'C#'],
@@ -278,6 +272,7 @@ export const projects = [
     title: 'Revive Mechanism',
     category: 'game',
     year: '2025',
+    role: 'Solo developer',
     description: 'A third-person rescue mechanic: NPCs get knocked down by traffic, and you hold E to revive them before it is too late.',
     details: ['Revive zone with a hold-to-fill progress bar, player health that drops on car impact, and animated knock-down and get-up states.'],
     tech: ['Unity', 'Animator', 'AI Navigation', 'C#'],
@@ -289,6 +284,7 @@ export const projects = [
     title: 'Rocket Boost',
     category: 'game',
     year: '2025',
+    role: 'Solo developer',
     description: 'A physics-based rocket landing game across multiple levels. Balance thrust and rotation to dodge moving obstacles and land safely.',
     tech: ['Unity', 'Rigidbody Physics', 'C#'],
     repo: 'https://github.com/kavin1702/Rocket_Boost',
@@ -299,6 +295,7 @@ export const projects = [
     title: 'Apple Catch: Dodge & Collect',
     category: 'game',
     year: '2025',
+    role: 'Solo developer',
     description: 'A 2D arcade game: catch falling apples and dodge bombs in a 30-second race against the clock.',
     details: ['Menus, pause and resume, audio settings with AudioMixer, and a high score saved with PlayerPrefs.'],
     tech: ['Unity 2D', 'Animator', 'AudioMixer', 'C#'],
@@ -307,18 +304,10 @@ export const projects = [
     hue: 0,
   },
   {
-    title: 'Liquid Shader',
-    category: 'game',
-    year: '2025',
-    description: 'Liquid that wobbles and sloshes inside a container as it moves, with split and endless-container variants in URP.',
-    tech: ['URP', 'Shaders', 'C#'],
-    repo: 'https://github.com/kavin1702/Liquid',
-    hue: 190,
-  },
-  {
     title: 'WorkPulse Office Worksheet',
     category: 'web',
     year: '2026',
+    role: 'Solo developer',
     description: 'A web app for logging daily office work, with an admin view.',
     tech: ['Next.js', 'JavaScript'],
     repo: 'https://github.com/kavin1702/OfficeWorksheet',
@@ -328,6 +317,7 @@ export const projects = [
     title: 'Tracker',
     category: 'web',
     year: '2026',
+    role: 'Solo developer',
     description: 'A full-stack tracker app built with Next.js, TypeScript and Prisma.',
     tech: ['Next.js', 'TypeScript', 'Prisma'],
     repo: 'https://github.com/kavin1702/Tracker-',

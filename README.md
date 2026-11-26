@@ -39,6 +39,12 @@ npm run build    # production build in dist/
 
 Every push to `main` builds and deploys automatically via `.github/workflows/deploy.yml`.
 
+## SEO
+
+- The build pre-renders the whole page to HTML (`src/entry-server.jsx` + `prerender.mjs`), so Google sees all the text without running JavaScript.
+- `index.html` has the title, description, Open Graph image and Person structured data (JSON-LD).
+- `public/sitemap.xml` and `public/robots.txt` tell search engines what to index.
+
 ## Why it loads fast
 
 - No UI framework or icon library: plain CSS and inline SVG icons.

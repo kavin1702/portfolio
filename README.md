@@ -9,7 +9,23 @@ A fast, fully responsive portfolio built with **React 18 + Vite**, deployed to *
 Everything on the site (projects, experience, skills, links) lives in [`src/data.js`](src/data.js).
 Search that file for `TODO` to find the placeholders still to fill in.
 
-To add a project demo video or build, add a `demo: 'https://...'` field to that project.
+### Add photos, videos and project details
+
+1. Upload images to `public/images/` (on GitHub: open the folder → **Add file → Upload files**).
+2. In `src/data.js`, add fields to a project:
+
+```js
+image: 'images/fire-safety.jpg',            // cover photo on the card
+gallery: ['images/fire-1.jpg', 'images/fire-2.jpg'],
+video: 'https://youtu.be/XXXXXXXXXXX',       // YouTube link (Unlisted is fine)
+role: 'Solo developer',
+details: ['What I built', 'A hard problem I solved', 'Result'],
+```
+
+3. For your profile photo, set `photo: 'images/kavin.jpg'` in `profile`.
+4. Commit. The site redeploys in about a minute.
+
+Images load lazily and videos load only when someone clicks play, so the page stays fast.
 
 ## Run locally
 

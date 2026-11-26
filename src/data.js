@@ -13,6 +13,9 @@ export const profile = {
   status: 'Open to XR / Unity developer roles',
   // TODO: add a public contact email if you want one on the site (left empty on purpose).
   email: '',
+  // Profile photo: put the file in public/images/ and write its name here,
+  // for example photo: 'images/kavin.jpg'. Leave empty to show the 3D cube instead.
+  photo: '',
   // TODO: add a link to a public resume PDF (without phone number / address) if you want a download button.
   resumeUrl: '',
   links: {
@@ -93,7 +96,19 @@ export const skillGroups = [
   },
 ];
 
-// category: 'vr' | 'mr' | 'ar' | 'game' | 'web'
+// ---------------------------------------------------------------
+// PROJECTS
+// Required: title, category, year, description, tech, repo, hue
+//   category: 'vr' | 'mr' | 'ar' | 'game' | 'web'
+//   hue: colour of the card (0-360) when there is no image
+// Optional (add any of these to a project):
+//   image:   'images/fire-safety.jpg'        -> cover photo (file in public/images/)
+//   gallery: ['images/fire-1.jpg', ...]     -> extra screenshots shown in the details window
+//   video:   'https://youtu.be/XXXXXXXXXXX' -> YouTube demo, played inside the details window
+//   demo:    'https://...'                  -> any other link (WebGL build, itch.io, APK...)
+//   role:    'Solo developer'               -> your role on the project
+//   details: ['What you built...', ...]     -> bullet points shown in the details window
+// ---------------------------------------------------------------
 export const projects = [
   {
     title: 'VR Fire Safety Drill',

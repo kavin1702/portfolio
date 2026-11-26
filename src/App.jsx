@@ -77,13 +77,20 @@ function Hero() {
     <section className="hero" id="top">
       <div className="hero__floor" aria-hidden="true" />
       <div className="hero__glow" aria-hidden="true" />
-      <div className="cube-wrap" aria-hidden="true">
+      {profile.photo ? (
+        <div className="hero__photo" aria-hidden="true">
+          <img src={asset(profile.photo)} alt="" fetchpriority="high" decoding="async" />
+        </div>
+      ) : (
+        <div className="cube-wrap" aria-hidden="true">
         <div className="cube">
           {['front', 'back', 'right', 'left', 'top', 'bottom'].map((f) => <span key={f} className={`cube__face cube__face--${f}`} />)}
         </div>
         <div className="cube-shadow" />
-      </div>
+        </div>
+      )}
       <div className="container hero__inner">
+        {profile.photo && <img className="hero__avatar reveal" src={asset(profile.photo)} alt={profile.name} width="88" height="88" decoding="async" />}
         <p className="eyebrow reveal">
           <span className="dot" /> {profile.status}
         </p>
@@ -129,14 +136,29 @@ function SectionHead({ index, title, kicker }) {
 
 const CAT_LABEL = { vr: 'VR', mr: 'MR', ar: 'AR', game: 'Game', web: 'Web' };
 
-function ProjectCard({ p, big }) {
+const asset = (path) => (/^https?:/.test(path) ? path : `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`);
+
+function youTubeId(url) {
+  const m = url && url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
+  return m ? m[1] : null;
+}
+
+function ProjectCard({ p, big, onOpen }) {
+  const hasMore = p.video || p.details || p.gallery;
   return (
     <article className={`card ${big ? 'card--big' : ''} reveal`} style={{ '--h': p.hue }}>
-      <div className="card__art" aria-hidden="true">
-        <div className="card__grid" />
-        <div className="card__orb" />
+      <button className="card__art" onClick={() => onOpen(p)} aria-label={`Open details for ${p.title}`}>
+        {p.image ? (
+          <img src={asset(p.image)} alt="" loading="lazy" decoding="async" />
+        ) : (
+          <>
+            <div className="card__grid" />
+            <div className="card__orb" />
+          </>
+        )}
         <span className="card__cat">{CAT_LABEL[p.category]}</span>
-      </div>
+        {p.video && <span className="card__play"><Icon name="play" /></span>}
+      </button>
       <div className="card__body">
         <div className="card__top">
           <h3>{p.title}</h3>
@@ -147,12 +169,17 @@ function ProjectCard({ p, big }) {
           {p.tech.map((t) => <li key={t}>{t}</li>)}
         </ul>
         <div className="card__links">
+          {hasMore && (
+            <button onClick={() => onOpen(p)}>
+              {p.video ? <><Icon name="play" /> Watch demo</> : <><Icon name="arrow" /> Details</>}
+            </button>
+          )}
           <a href={p.repo} target="_blank" rel="noreferrer">
             <Icon name="github" /> Source
           </a>
           {p.demo && (
             <a href={p.demo} target="_blank" rel="noreferrer">
-              <Icon name="play" /> Demo
+              <Icon name="external" /> Live
             </a>
           )}
         </div>
@@ -161,8 +188,66 @@ function ProjectCard({ p, big }) {
   );
 }
 
+function ProjectModal({ p, onClose }) {
+  useEffect(() => {
+    if (!p) return undefined;
+    const onKey = (e) => e.key === 'Escape' && onClose();
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey); };
+  }, [p, onClose]);
+  if (!p) return null;
+  const yt = youTubeId(p.video);
+  return (
+    <div className="modal" role="dialog" aria-modal="true" aria-label={p.title} onClick={onClose}>
+      <div className="modal__box" style={{ '--h': p.hue }} onClick={(e) => e.stopPropagation()}>
+        <button className="modal__close" onClick={onClose} aria-label="Close">×</button>
+        {yt ? (
+          <div className="modal__media">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0`}
+              title={`${p.title} demo video`}
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+              allowFullScreen
+            />
+          </div>
+        ) : p.image ? (
+          <div className="modal__media"><img src={asset(p.image)} alt={`${p.title} screenshot`} /></div>
+        ) : null}
+        <div className="modal__body">
+          <span className="card__cat modal__cat">{CAT_LABEL[p.category]} · {p.year}</span>
+          <h3>{p.title}</h3>
+          {p.role && <p className="modal__role">{p.role}</p>}
+          <p className="modal__desc">{p.description}</p>
+          {p.details && (
+            <ul className="bullets">
+              {p.details.map((d) => <li key={d}>{d}</li>)}
+            </ul>
+          )}
+          {p.gallery && (
+            <div className="gallery">
+              {p.gallery.map((g) => (
+                <a key={g} href={asset(g)} target="_blank" rel="noreferrer">
+                  <img src={asset(g)} alt={`${p.title} screenshot`} loading="lazy" decoding="async" />
+                </a>
+              ))}
+            </div>
+          )}
+          <ul className="tags">{p.tech.map((t) => <li key={t}>{t}</li>)}</ul>
+          <div className="contact__actions">
+            <a className="btn" href={p.repo} target="_blank" rel="noreferrer"><Icon name="github" /> Source code</a>
+            {p.video && !yt && <a className="btn" href={p.video} target="_blank" rel="noreferrer"><Icon name="play" /> Watch video</a>}
+            {p.demo && <a className="btn btn--primary" href={p.demo} target="_blank" rel="noreferrer">Open live <Icon name="external" /></a>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Work() {
   const [cat, setCat] = useState('all');
+  const [open, setOpen] = useState(null);
   const featured = projects.filter((p) => p.featured);
   const list = useMemo(
     () => projects.filter((p) => !p.featured && (cat === 'all' || p.category === cat)),
@@ -179,7 +264,7 @@ function Work() {
       <div className="container">
         <SectionHead index="01" title="Selected work" kicker="XR training simulations, mixed reality games and Unity prototypes. Every card links to the source." />
         <div className="featured">
-          {featured.map((p, i) => <ProjectCard key={p.title} p={p} big={i < 2} />)}
+          {featured.map((p, i) => <ProjectCard key={p.title} p={p} big={i < 2} onOpen={setOpen} />)}
         </div>
 
         <div className="more reveal">
@@ -199,8 +284,9 @@ function Work() {
           </div>
         </div>
         <div className="grid" key={cat}>
-          {list.map((p) => <ProjectCard key={p.title} p={p} />)}
+          {list.map((p) => <ProjectCard key={p.title} p={p} onOpen={setOpen} />)}
         </div>
+        <ProjectModal p={open} onClose={() => setOpen(null)} />
       </div>
     </section>
   );

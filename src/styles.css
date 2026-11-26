@@ -363,3 +363,59 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   background: radial-gradient(closest-side, rgba(198, 244, 50, 0.25), transparent);
   filter: blur(6px);
 }
+
+/* ---------- Profile photo ---------- */
+.hero__photo { display: none; }
+.hero__avatar { display: block; width: 88px; height: 88px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 2px solid var(--accent); }
+@media (min-width: 1060px) {
+  .hero__avatar { display: none; }
+  .hero__photo {
+    display: block; position: absolute; right: max(4vw, calc((100vw - var(--container)) / 2 + 20px)); top: 22%;
+    width: 320px; aspect-ratio: 4 / 5; border-radius: 28px; padding: 8px;
+    background: linear-gradient(160deg, rgba(198, 244, 50, 0.7), rgba(94, 231, 255, 0.4));
+    box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.8), 0 0 80px rgba(198, 244, 50, 0.12);
+    rotate: 3deg; pointer-events: none;
+  }
+  .hero__photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 22px; background: var(--surface); }
+}
+
+/* ---------- Card media + buttons ---------- */
+button.card__art { display: block; width: 100%; padding: 0; border: 0; border-bottom: 1px solid var(--line); cursor: pointer; text-align: left; }
+.card__art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.card:hover .card__art img { transform: scale(1.04); }
+.card__play {
+  position: absolute; right: 14px; bottom: 14px; display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--accent-ink);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.card__play .icon { fill: currentColor; }
+.card__links button { display: inline-flex; align-items: center; gap: 6px; font-size: 0.92rem; font-weight: 600; background: none; border: 0; padding: 0; color: var(--c); }
+.card__links button:hover { text-decoration: underline; }
+
+/* ---------- Project modal ---------- */
+.modal {
+  position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 16px;
+  background: rgba(5, 6, 9, 0.82); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  animation: fade 0.2s ease;
+}
+@keyframes fade { from { opacity: 0; } }
+.modal__box {
+  position: relative; width: min(860px, 100%); max-height: calc(100svh - 32px); overflow-y: auto;
+  border-radius: 22px; border: 1px solid var(--line-2); background: var(--surface);
+  --c: hsl(var(--h) 85% 62%);
+}
+.modal__close {
+  position: absolute; right: 12px; top: 12px; z-index: 2; width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--line-2); background: rgba(11, 13, 18, 0.8); font-size: 1.5rem; line-height: 1;
+}
+.modal__media { aspect-ratio: 16 / 9; background: #000; }
+.modal__media iframe, .modal__media img { width: 100%; height: 100%; border: 0; object-fit: cover; display: block; }
+.modal__body { padding: clamp(20px, 4vw, 36px); display: grid; gap: 14px; }
+.modal__cat { position: static; justify-self: start; }
+.modal__body h3 { font-size: clamp(1.6rem, 4vw, 2.2rem); }
+.modal__role { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); }
+.modal__desc { color: var(--muted); font-size: 1.05rem; }
+.modal__body .bullets { margin: 0; }
+.modal__body .contact__actions { margin-top: 8px; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); gap: 10px; }
+.gallery img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); }

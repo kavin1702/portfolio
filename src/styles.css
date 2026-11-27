@@ -632,3 +632,18 @@ button.card__art { display: block; width: 100%; padding: 0; border: 0; border-bo
   .chip--b { display: none; }
   .chip--a { left: -30%; }
 }
+
+/* =========================================================
+   Hard guarantees against sideways scrolling on real phones.
+   iOS Safari does not always clip 3D-transformed children with
+   overflow:hidden, which made the page wider than the screen.
+   ========================================================= */
+html, body { max-width: 100%; overflow-x: hidden; }
+@supports (overflow: clip) { html, body { overflow-x: clip; } }
+.hero, .marquee, .card__art, .contact__box { contain: paint; }
+.hero__floor { left: -20%; right: -20%; }
+@media (hover: none), (max-width: 960px) {
+  .hero__card { transform: none; transform-style: flat; transition: none; }
+  .chip { transform: none; }
+  .hero__visual { perspective: none; }
+}

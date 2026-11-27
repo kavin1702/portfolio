@@ -192,7 +192,6 @@ function Hero() {
             )}
             <div className="chip chip--a"><Icon name="badge" /><span><b>Unity Certified</b>Associate · Game Dev</span></div>
             <div className="chip chip--b"><Icon name="headset" /><span><b>Meta Quest</b>VR · MR · Hand tracking</span></div>
-            <div className="chip chip--c"><span className="chip__num">12+</span><span><b>XR simulations</b>shipped at 8chili</span></div>
           </div>
         </div>
       </div>

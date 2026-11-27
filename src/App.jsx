@@ -83,7 +83,7 @@ function Header() {
       <div className="header__inner">
         <a href="#top" className="logo" aria-label="Kavin M N, back to top">
           <span className="logo__mark">K</span>
-          <span className="logo__text">kavin<span className="accent">.xr</span></span>
+          <span className="logo__text">Kavin</span>
         </a>
         <nav className={`nav ${open ? 'is-open' : ''}`} aria-label="Main">
           {NAV.map((n) => (
@@ -111,48 +111,100 @@ function Header() {
   );
 }
 
+const TECH = ['Unity 6', 'C#', 'Meta XR SDK', 'OpenXR', 'XR Interaction Toolkit', 'Hand Tracking', 'Passthrough', 'AR Foundation', 'ARCore', 'URP', 'Blender', 'Substance Painter', 'Git'];
+
+// Tilts the photo card in 3D as the mouse moves over the hero (desktop only).
+function useTilt() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const hero = el.closest('.hero');
+    let raf = 0;
+    const onMove = (e) => {
+      const r = hero.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.style.setProperty('--rx', `${(-y * 10).toFixed(2)}deg`);
+        el.style.setProperty('--ry', `${(x * 14).toFixed(2)}deg`);
+        hero.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        hero.style.setProperty('--my', `${e.clientY - r.top}px`);
+      });
+    };
+    const onLeave = () => { el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg'); };
+    hero.addEventListener('pointermove', onMove);
+    hero.addEventListener('pointerleave', onLeave);
+    return () => { hero.removeEventListener('pointermove', onMove); hero.removeEventListener('pointerleave', onLeave); cancelAnimationFrame(raf); };
+  }, []);
+  return ref;
+}
+
 function Hero() {
+  const tilt = useTilt();
+  const first = profile.name.split(' ')[0];
   return (
     <section className="hero" id="top">
       <div className="hero__floor" aria-hidden="true" />
       <div className="hero__glow" aria-hidden="true" />
-      {profile.photo ? (
-        <div className="hero__photo">
-          <img src={asset(profile.photo)} alt={`${profile.name}, Unity and XR developer`} width="640" height="853" fetchpriority="high" decoding="async" />
+      <div className="hero__spot" aria-hidden="true" />
+
+      <div className="container hero__grid">
+        <div className="hero__copy">
+          <p className="eyebrow reveal">
+            <span className="dot" /> {profile.status}
+          </p>
+          <h1 className="hero__title reveal">
+            <span className="hero__hello">Hi, I'm {profile.name} <span className="wave" aria-hidden="true">👋</span></span>
+            <span className="hero__headline">
+              I build <span className="grad-text">XR worlds</span> you can step inside.
+            </span>
+          </h1>
+          <p className="hero__intro reveal">
+            <strong>{profile.role}</strong> crafting VR, MR and AR training simulations in Unity 6 and C#. Currently shipping XR simulations at <strong>8chili</strong>.
+          </p>
+          <div className="hero__actions reveal">
+            <a href="#work" className="btn btn--primary">See my work <Icon name="arrow" /></a>
+            {profile.resumeUrl ? (
+              <a href={`${import.meta.env.BASE_URL}${profile.resumeUrl}`} className="btn" target="_blank" rel="noreferrer"><Icon name="download" /> Resume</a>
+            ) : (
+              <a href="#contact" className="btn">Get in touch</a>
+            )}
+          </div>
+          <div className="hero__social reveal">
+            <span>Find me on</span>
+            <a href={profile.links.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Icon name="linkedin" /></a>
+            <a href={profile.links.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Icon name="github" /></a>
+            {profile.links.artstation && <a href={profile.links.artstation} target="_blank" rel="noreferrer" aria-label="ArtStation"><Icon name="art" /></a>}
+            {profile.email && <a href={`mailto:${profile.email}`} aria-label="Email"><Icon name="mail" /></a>}
+          </div>
         </div>
-      ) : (
-        <div className="cube-wrap" aria-hidden="true">
-        <div className="cube">
-          {['front', 'back', 'right', 'left', 'top', 'bottom'].map((f) => <span key={f} className={`cube__face cube__face--${f}`} />)}
+
+        <div className="hero__visual reveal">
+          <div className="hero__orbit" aria-hidden="true"><span /><span /></div>
+          <div className="hero__card" ref={tilt}>
+            {profile.photo ? (
+              <img src={asset(profile.photo)} alt={`${profile.name}, Unity and XR developer`} width="640" height="853" fetchpriority="high" decoding="async" />
+            ) : (
+              <div className="hero__monogram" aria-hidden="true">{first[0]}</div>
+            )}
+            <div className="chip chip--a"><Icon name="badge" /><span><b>Unity Certified</b>Associate · Game Dev</span></div>
+            <div className="chip chip--b"><Icon name="headset" /><span><b>Meta Quest</b>VR · MR · Hand tracking</span></div>
+            <div className="chip chip--c"><span className="chip__num">12+</span><span><b>XR simulations</b>shipped at 8chili</span></div>
+          </div>
         </div>
-        <div className="cube-shadow" />
-        </div>
-      )}
-      <div className="container hero__inner">
-        {profile.photo && <img className="hero__avatar reveal" src={asset(profile.avatar || profile.photo)} alt={profile.name} width="88" height="88" decoding="async" />}
-        <p className="eyebrow reveal">
-          <span className="dot" /> {profile.status}
-        </p>
-        <h1 className="hero__title reveal">
-          {profile.name.split(' ')[0]} <span className="muted">{profile.name.split(' ').slice(1).join(' ')}</span>
-          <span className="hero__role">{profile.role}<span className="caret" aria-hidden="true">_</span></span>
-        </h1>
-        <p className="hero__tagline reveal">{profile.tagline}</p>
-        <p className="hero__intro reveal">{profile.intro}</p>
-        <div className="hero__actions reveal">
-          <a href="#work" className="btn btn--primary">See my work <Icon name="arrow" /></a>
-          {profile.resumeUrl ? (
-            <a href={`${import.meta.env.BASE_URL}${profile.resumeUrl}`} className="btn" target="_blank" rel="noreferrer"><Icon name="download" /> Resume</a>
-          ) : (
-            <a href="#contact" className="btn">Get in touch</a>
-          )}
-        </div>
-        <ul className="hero__meta reveal">
-          <li><Icon name="badge" /> Unity Certified Associate</li>
-          <li><Icon name="headset" /> Meta Quest · OpenXR</li>
-          <li><Icon name="pin" /> {profile.location}</li>
-        </ul>
       </div>
+
+      <div className="marquee reveal" aria-label="Tech stack">
+        <div className="marquee__track">
+          {[...TECH, ...TECH].map((t, i) => (
+            <span key={i} aria-hidden={i >= TECH.length}>{t}</span>
+          ))}
+        </div>
+      </div>
+
       <div className="container">
         <ul className="stats reveal">
           {stats.map((s) => (

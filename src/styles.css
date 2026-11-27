@@ -200,7 +200,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 .stats {
   position: relative; margin-top: clamp(48px, 8vw, 80px);
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  display: grid; grid-template-columns: repeat(2, 1fr);
   border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--surface); box-shadow: var(--shadow);
 }

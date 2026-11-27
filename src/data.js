@@ -28,7 +28,6 @@ export const profile = {
 };
 
 export const stats = [
-  { value: '12+', label: 'XR simulations shipped at 8chili' },
   { value: '14', label: 'projects in this portfolio, most with video demos' },
   { value: '90%', label: 'fewer AssetBundle blockers (target of my preflight tool)' },
 ];
